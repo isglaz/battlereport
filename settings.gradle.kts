@@ -9,6 +9,9 @@ dependencyResolutionManagement {
         mavenCentral()
         google()
     }
+    versionCatalogs {
+        create("ktorLibs").from("io.ktor:ktor-version-catalog:3.4.0")
+    }
 }
 
 // The following block registers dependencies to enable Kobweb snapshot support. It is safe to delete or comment out
@@ -27,7 +30,12 @@ gradle.settingsEvaluated {
     dependencyResolutionManagement.repositories { kobwebSnapshots() }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+}
+
 rootProject.name = "battlereport"
 
+include(":server")
 include(":site")
 

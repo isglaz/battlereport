@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.iglaz.battlereport"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 kobweb {
     app {

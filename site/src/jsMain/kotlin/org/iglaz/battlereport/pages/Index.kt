@@ -6,14 +6,22 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.core.Page
-import org.jetbrains.compose.web.css.vh
+import kotlinx.browser.window
+import kotlinx.coroutines.await
 import org.jetbrains.compose.web.dom.Text
 
 @Page
 @Composable
 fun HomePage() {
-    // TODO: Replace the following with your own content
+    var response by remember { mutableStateOf("Loading...") }
+
+    LaunchedEffect(Unit) {
+        val result = window.fetch("http://localhost:8080/").await()
+        val text = result.text().await()
+        response = text
+    }
+
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("THIS PAGE INTENTIONALLY LEFT BLANK")
+        Text(response)
     }
 }
