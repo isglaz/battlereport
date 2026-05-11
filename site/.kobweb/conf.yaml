@@ -1,0 +1,14 @@
+site:
+  title: "BattleReport"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/kotlin-webpack/js/developmentExecutable/battlereport.js"
+      api: "build/libs/battlereport.jar"
+    prod:
+      script: "build/kotlin-webpack/js/productionExecutable/battlereport.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080
