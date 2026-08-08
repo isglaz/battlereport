@@ -37,6 +37,7 @@ kotlin {
 
     sourceSets {
         jsMain.dependencies {
+            implementation(project(":common"))
             implementation(libs.compose.runtime)
             implementation(libs.compose.html.core)
             implementation(libs.kobweb.core)
@@ -44,7 +45,6 @@ kotlin {
             implementation(libs.silk.icons.fa)
             implementation(libs.kobwebx.markdown)
             implementation(libs.kobwebx.serialization.kotlinx)   // уже есть в каталоге
-            implementation(libs.kotlinx.serialization.json)
             implementation(npm("marked", "12.0.2"))
         }
     }

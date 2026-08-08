@@ -17,6 +17,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(ktorLibs.serialization.kotlinx.json)
     implementation(ktorLibs.server.callLogging)
     implementation(ktorLibs.server.contentNegotiation)

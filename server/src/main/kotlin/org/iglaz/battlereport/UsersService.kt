@@ -1,4 +1,4 @@
-package org.iglaz
+package org.iglaz.battlereport
 
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.singleOrNull

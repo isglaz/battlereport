@@ -1,4 +1,4 @@
-package org.iglaz
+package org.iglaz.battlereport
 
 import io.ktor.http.*
 import io.ktor.server.application.*

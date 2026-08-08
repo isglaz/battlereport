@@ -36,6 +36,7 @@ plugins {
 
 rootProject.name = "battlereport"
 
+include(":common")
 include(":server")
 include(":site")
 

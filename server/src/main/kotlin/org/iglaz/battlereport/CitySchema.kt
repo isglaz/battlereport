@@ -1,4 +1,4 @@
-package org.iglaz
+package org.iglaz.battlereport
 
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable

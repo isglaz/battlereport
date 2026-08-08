@@ -5,25 +5,26 @@ out
 kotlin-js-store
 
 # IntelliJ ignores
+# Проще игнорировать всю папку целиком: в ней нет ничего, что нужно в репозитории,
+# а отдельные файлы (workspace.xml и т.п.) IDE регенерирует сама.
+.idea/
 *.iml
 /*.ipr
-
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/gradle.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/artifacts
-/.idea/compiler.xml
-/.idea/jarRepositories.xml
-/.idea/*.iml
-/.idea/modules
-/.idea/libraries-with-intellij-classes.xml
 
 # Gradle ignores
 .gradle
 
 # Kotlin ignores
 .kotlin
+
+# Локальные БД (H2 создаёт их при запуске сервера)
+*.mv.db
+*.trace.db
+
+# Сгенерированная OpenAPI-документация (swagger-codegen из documentation.yaml)
+/docs/
+/server/docs/
+
+# Локальные переменные окружения
+.env
+.env.local

@@ -1,4 +1,4 @@
-package org.iglaz
+package org.iglaz.battlereport
 
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
