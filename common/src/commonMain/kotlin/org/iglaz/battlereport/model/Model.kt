@@ -25,7 +25,9 @@ data class User(
     val handle: String,
     val joined: String,
     val bio: String = "",
-    /** oklch-строка: единственный цвет во всём интерфейсе */
+    /** ключ в облачном хранилище, напр. "users/42/avatar.webp"; null → рисуем avatarColor */
+    val avatarKey: String? = null,
+    /** oklch-строка: единственный цвет во всём интерфейсе. Fallback, когда avatarKey == null */
     val avatarColor: String = "oklch(0.27 0 0)",
 )
 
@@ -36,9 +38,12 @@ data class Wargame(
     val year: Int,
     val publisher: String,
     val designer: String,
+    /** Fallback, когда coverKey == null */
     val boxLabel: String,
     val tagline: String,
     val desc: String,
+    /** ключ в облачном хранилище; null → рисуем boxLabel */
+    val coverKey: String? = null,
 )
 
 @Serializable

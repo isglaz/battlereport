@@ -22,22 +22,22 @@ object SampleData {
     val users: Map<String, User> = listOf(
         User("greywolf", "GreyWolf", "@greywolf", "2021",
             "Eastern Front grognard. ASL since '04. Will defend a stone building to the last squad.",
-            "oklch(0.55 0.12 290)"),
+            avatarColor = "oklch(0.55 0.12 290)"),
         User("oberstk", "OberstK", "@oberstk", "2019",
             "Combat Commander evangelist. Card-driven or it didn't happen.",
-            "oklch(0.58 0.11 30)"),
+            avatarColor = "oklch(0.58 0.11 30)"),
         User("hexhammer", "HexHammer", "@hexhammer", "2022",
             "Solo gamer, AAR writer, hex purist. Grinding through the whole CoH series.",
-            "oklch(0.55 0.1 155)"),
+            avatarColor = "oklch(0.55 0.1 155)"),
         User("mapfolder", "MapFolder", "@mapfolder", "2020",
             "I photograph boards more than I play them. Memoir '44 league organizer.",
-            "oklch(0.56 0.11 230)"),
+            avatarColor = "oklch(0.56 0.11 230)"),
         User("saunders", "Sgt_Saunders", "@saunders", "2018",
             "Squad Leader old guard. Teaching my kid the original rulebook.",
-            "oklch(0.55 0.12 60)"),
+            avatarColor = "oklch(0.55 0.12 60)"),
         User("redtithe", "RedTithe", "@redtithe", "2023",
             "New to the hobby, big on Twilight Struggle. Soviet apologist.",
-            "oklch(0.55 0.12 350)"),
+            avatarColor = "oklch(0.55 0.12 350)"),
     ).associateBy { it.id }
 
     val wargames: Map<String, Wargame> = listOf(
