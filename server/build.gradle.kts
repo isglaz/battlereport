@@ -5,7 +5,7 @@ plugins {
     application
 }
 
-group = "org.iglaz.battlereport"
+group = "org.isglaz.battlereport"
 version = "1.0.0"
 
 application {
@@ -35,8 +35,22 @@ dependencies {
     implementation(libs.h2database.h2)
     implementation(libs.h2database.r2dbc)
     implementation(libs.logback)
+    // JDBC-драйвер нужен тестам и Liquibase; рантайм сервера ходит в БД через R2DBC.
     implementation(libs.postgresql)
+    implementation(libs.postgresql.r2dbc)
 
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)
+
+    // Интеграционные тесты поднимают Postgres в Testcontainers и накатывают на него
+    // ровно те же миграции, что уедут в прод: changelog приезжает в classpath из :migrations.
+    testImplementation(project(":migrations"))
+    testImplementation(libs.liquibase.core)
+    testImplementation(libs.testcontainers.core)
+    testImplementation(libs.testcontainers.junitJupiter)
+    testImplementation(libs.testcontainers.postgresql)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }

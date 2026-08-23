@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-group = "org.iglaz.battlereport"
+group = "org.isglaz.battlereport"
 version = "1.0.0"
 
 kotlin {
