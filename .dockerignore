@@ -1,0 +1,19 @@
+# В контекст сборки уезжает весь репозиторий — отсекаем то, что образу не нужно
+# и что заметно раздувает контекст.
+.git
+.gradle
+.kotlin
+build
+*/build
+site/.kobweb
+!site/.kobweb/conf.yaml
+kotlin-js-store
+.idea
+docs
+*/docs
+
+# Локальные артефакты и секреты
+.env
+.env.local
+*.mv.db
+*.trace.db

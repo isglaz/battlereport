@@ -24,3 +24,32 @@ The entire app is written in **pure Kotlin** — backend and frontend alike:
 | Backend  | **Ktor** + Exposed + PostgreSQL    |
 | Frontend | **Kobweb** (Kotlin/JS + Compose)   |
 | Build    | Gradle (Kotlin DSL)                |
+
+## 🚀 Запуск локально
+
+Нужен Docker.
+
+```sh
+cp .env.example .env          # правки не обязательны, дефолты рабочие
+docker compose up -d postgres # БД
+./deploy/migrate.sh update    # схема
+docker compose up -d          # бэк на :8080, фронт на :8081
+```
+
+Миграции — отдельный шаг: сервер их не применяет, схему создаёт только Liquibase.
+Подробности — в [migrations/README.md](migrations/README.md).
+
+## ⚙️ Конфигурация
+
+Единственный источник — переменные окружения. Локально они лежат в `.env`
+(создаётся из `.env.example`, в репозиторий не коммитится), на проде — в `.env`
+на сервере, который заполняет TeamCity. Полный список — в `.env.example`.
+
+## 📦 Деплой
+
+```
+Build (образы) -> Migrate (liquibase update) -> Deploy (compose up)
+```
+
+Пайплайн описан в `.teamcity/settings.kts`, шаги — в `deploy/`.
+Порядок жёсткий: миграции применяются до подъёма нового кода.

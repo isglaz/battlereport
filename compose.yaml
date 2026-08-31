@@ -1,0 +1,52 @@
+# Локальное окружение: БД, бэк и фронт одной командой `docker compose up`.
+#
+# Миграции сюда намеренно не входят — это отдельный осознанный шаг деплоя,
+# и сервер их не применяет: `./deploy/migrate.sh update`.
+#
+# Прод использует этот же файл с оверлеем compose.prod.yaml, где вместо сборки
+# из исходников подставляются образы из registry.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # Сервер стартует только после того, как БД реально готова принимать соединения.
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      PORT: 8080
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  site:
+    build:
+      context: .
+      dockerfile: site/Dockerfile
+    ports:
+      - "${SITE_PORT:-8081}:80"
+    depends_on:
+      - server
+
+volumes:
+  pgdata:
