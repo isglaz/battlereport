@@ -32,19 +32,17 @@ dependencies {
     implementation(ktorLibs.server.statusPages)
     implementation(libs.exposed.core)
     implementation(libs.exposed.r2dbc)
-    implementation(libs.h2database.h2)
-    implementation(libs.h2database.r2dbc)
     implementation(libs.logback)
-    // JDBC-драйвер нужен тестам и Liquibase; рантайм сервера ходит в БД через R2DBC.
-    implementation(libs.postgresql)
     implementation(libs.postgresql.r2dbc)
 
     testImplementation(kotlin("test"))
     testImplementation(ktorLibs.server.testHost)
 
     // Интеграционные тесты поднимают Postgres в Testcontainers и накатывают на него
-    // ровно те же миграции, что уедут в прод: changelog приезжает в classpath из :migrations.
-    testImplementation(project(":migrations"))
+    // ровно те же миграции, что уедут в прод: Liquibase читает changelog прямо из
+    // каталога migrations/liquibase, поэтому модуль-обёртка не нужна.
+    // Liquibase ходит в БД только через JDBC, отсюда драйвер в тестовых зависимостях.
+    testImplementation(libs.postgresql)
     testImplementation(libs.liquibase.core)
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.testcontainers.junitJupiter)
@@ -53,4 +51,16 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+
+    // Docker Desktop 29 отвечает пустым 400 на запросы без версии API, которые шлёт
+    // docker-java внутри Testcontainers (демон объявляет min API 1.40). docker-java
+    // читает версию из системного свойства api.version, а не из окружения.
+    systemProperty("api.version", "1.44")
+
+    // На Windows Testcontainers промахивается мимо активного docker-контекста и стучится
+    // в дефолтный npipe. Подставляем рабочий endpoint, если DOCKER_HOST не задан снаружи;
+    // на Linux/CI ветка не срабатывает.
+    if (System.getenv("DOCKER_HOST") == null && System.getProperty("os.name").startsWith("Windows")) {
+        environment("DOCKER_HOST", "npipe:////./pipe/dockerDesktopLinuxEngine")
+    }
 }
