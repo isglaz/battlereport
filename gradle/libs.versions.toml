@@ -6,7 +6,6 @@ compose-runtime = "1.10.2"
 kobweb = "0.24.0"
 ktor = "3.4.3"
 exposed = "1.2.0"
-h2 = "2.4.240"
 logback = "1.5.32"
 junit = "4.13.2"
 liquibase = "4.32.0"
@@ -28,17 +27,14 @@ silk-icons-mdi = { module = "com.varabyte.kobwebx:silk-icons-mdi", version.ref =
 # back
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 exposed-r2dbc = { module = "org.jetbrains.exposed:exposed-r2dbc", version.ref = "exposed" }
-h2database-h2 = { module = "com.h2database:h2", version.ref = "h2" }
-h2database-r2dbc = { module = "io.r2dbc:r2dbc-h2", version = "1.1.0.RELEASE" }
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.7" }
 postgresql-r2dbc = { module = "org.postgresql:r2dbc-postgresql", version = "1.0.7.RELEASE" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback"}
 
-# migrations
-liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
-picocli = { module = "info.picocli:picocli", version = "4.7.6" }
-
 # test
+# Liquibase нужен только тестам: миграции на проде катает docker-образ liquibase/liquibase,
+# версия образа в deploy/migrate.sh держится в согласии с этой.
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
