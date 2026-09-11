@@ -1,10 +1,10 @@
 #!/bin/sh
-# Деплой на прод: выполняется на сервере, TeamCity зовёт его по SSH.
+# Production deployment: runs on the server, TeamCity invokes it over SSH.
 #
-# Порядок жёсткий: миграции применяются ДО подъёма нового кода, иначе новый сервер
-# стартует на старой схеме.
+# The order is strict: migrations are applied BEFORE the new code comes up, otherwise the
+# new server starts against the old schema.
 #
-# Ожидает, что рядом с compose-файлами лежит .env с REGISTRY, TAG и координатами БД.
+# Expects an .env next to the compose files holding REGISTRY, TAG and the database coordinates.
 set -eu
 
 REPO_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
@@ -12,14 +12,14 @@ cd "$REPO_ROOT"
 
 COMPOSE="docker compose -f compose.yaml -f compose.prod.yaml"
 
-echo "==> Забираем образы"
+echo "==> Pulling images"
 $COMPOSE pull
 
-echo "==> Поднимаем БД"
+echo "==> Starting the database"
 $COMPOSE up -d postgres
 
-echo "==> Накатываем миграции"
-# .env читает compose, но migrate.sh запускается напрямую — подгружаем сами.
+echo "==> Applying migrations"
+# compose reads .env, but migrate.sh is invoked directly - load it ourselves.
 set -a
 . ./.env
 set +a
@@ -27,8 +27,8 @@ COMPOSE_NETWORK=$(docker network ls --filter name=battlereport --format '{{.Name
 export COMPOSE_NETWORK
 ./deploy/migrate.sh update
 
-echo "==> Поднимаем приложение"
+echo "==> Starting the application"
 $COMPOSE up -d
 
-echo "==> Готово"
+echo "==> Done"
 $COMPOSE ps

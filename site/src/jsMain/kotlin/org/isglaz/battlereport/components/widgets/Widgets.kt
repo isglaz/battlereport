@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.widgets
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/ui.jsx, br/styles.css
  * │ @design-part     Avatar · BoxArt · initials() · .btn/.card/.chip/.hr
- * │ @design-note     Avatar.avatarColor — единственный цвет во всём дизайне.
+ * │ @design-note     Avatar.avatarColor is the only color in the whole design.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -79,7 +79,7 @@ fun Chip(text: String, modifier: Modifier = Modifier, onClick: (() -> Unit)? = n
         .then(modifier))
 }
 
-/** Аватар: инициалы на цветном круге — единственное цветное пятно в дизайне. */
+/** Avatar: initials on a colored circle - the only spot of color in the design. */
 @Composable
 fun Avatar(user: User?, size: Int = 40, ring: Boolean = false, onClick: (() -> Unit)? = null) {
     Box(
@@ -101,7 +101,7 @@ fun initials(name: String?): String {
     else "${parts.first().first()}${parts.last().first()}".uppercase()
 }
 
-/** Полосатая заглушка вместо box art / фото поля (.ph в styles.css). */
+/** Striped placeholder instead of box art / board photo (.ph in styles.css). */
 @Composable
 fun Placeholder(label: String, modifier: Modifier = Modifier) {
     Box(

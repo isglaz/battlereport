@@ -1,44 +1,44 @@
-# Миграции БД
+# Database migrations
 
-Каталог самодостаточен: здесь нет сборки, нет `build.gradle.kts` и нет jar-а.
-Liquibase читает эти файлы прямо с диска, поэтому накатить миграции может что угодно,
-что умеет читать каталог — локальный docker, TeamCity, руками через CLI.
+The directory is self-contained: there is no build here, no `build.gradle.kts` and no jar.
+Liquibase reads these files straight from disk, so migrations can be applied by anything
+able to read a directory - local docker, TeamCity, or by hand through the CLI.
 
 ```
 liquibase/
-├── db.changelog-master.yaml   # только includeAll на папки версий
+├── db.changelog-master.yaml   # only includeAll over the version folders
 └── v-1.0.0/
     └── 01-init.sql            # liquibase formatted sql
 ```
 
-## Как накатить
+## How to apply
 
 ```sh
 ./deploy/migrate.sh              # update
-./deploy/migrate.sh status       # чего не хватает в БД
-./deploy/migrate.sh validate     # дубли id и битые checksum
-./deploy/migrate.sh update-sql   # показать SQL, ничего не применяя
+./deploy/migrate.sh status       # what the database is missing
+./deploy/migrate.sh validate     # duplicate ids and broken checksums
+./deploy/migrate.sh update-sql   # print the SQL without applying anything
 ```
 
-Скрипт берёт координаты БД из окружения (`DB_JDBC_URL`, `DB_USER`, `DB_PASSWORD`);
-локально они приезжают из `.env` в корне репозитория.
+The script takes the database coordinates from the environment (`DB_JDBC_URL`, `DB_USER`,
+`DB_PASSWORD`); locally they arrive from the `.env` in the repository root.
 
-## Как добавить миграцию
+## How to add a migration
 
-Новая версия схемы — новая папка `v-<версия>/`, она подхватывается `includeAll` сама.
-Внутри папки файлы применяются в лексикографическом порядке, поэтому имя начинается
-с номера: `01-`, `02-`, ...
+A new schema version means a new `v-<version>/` folder, picked up by `includeAll` on its own.
+Inside a folder the files are applied in lexicographic order, so the name starts with a
+number: `01-`, `02-`, ...
 
-Правила, которые экономят нервы:
+Rules that save your nerves:
 
-* **Применённый changeset не редактируют.** Liquibase считает checksum, и правка
-  уже накатанного файла ломает `update` на всех средах, где он применён.
-  Нужно изменение — новый changeset.
-* У каждого changeset есть `--rollback`: без него откат релиза невозможен.
-* Тело plpgsql содержит `;`, поэтому такому changeset нужен `splitStatements:false` —
-  иначе Liquibase разрежет функцию на куски.
+* **An applied changeset is never edited.** Liquibase computes a checksum, and editing an
+  already applied file breaks `update` on every environment where it has been applied.
+  If a change is needed - add a new changeset.
+* Every changeset has a `--rollback`: without it a release cannot be rolled back.
+* A plpgsql body contains `;`, so such a changeset needs `splitStatements:false` -
+  otherwise Liquibase cuts the function into pieces.
 
-## Где ещё используется этот каталог
+## Where else this directory is used
 
-Тесты `:server` (`DatabaseTestBase`) накатывают этот же changelog на Postgres
-в Testcontainers. Сломанная миграция падает в тестах, а не на проде.
+The `:server` tests (`DatabaseTestBase`) apply this same changelog to Postgres in
+Testcontainers. A broken migration fails in the tests rather than in production.

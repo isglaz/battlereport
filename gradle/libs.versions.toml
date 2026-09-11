@@ -32,8 +32,8 @@ postgresql-r2dbc = { module = "org.postgresql:r2dbc-postgresql", version = "1.0.
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback"}
 
 # test
-# Liquibase нужен только тестам: миграции на проде катает docker-образ liquibase/liquibase,
-# версия образа в deploy/migrate.sh держится в согласии с этой.
+# Liquibase is needed by tests only: in production migrations are run by the
+# liquibase/liquibase docker image, whose version in deploy/migrate.sh is kept in sync with this one.
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }

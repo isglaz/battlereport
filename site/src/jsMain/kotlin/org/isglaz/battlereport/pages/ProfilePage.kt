@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/profile.jsx
  * │ @design-part     Profile
- * │ @design-note     Баннер с гексовой текстурой; в прототипе SVG-pattern, здесь CSS-градиенты.
+ * │ @design-note     Banner with a hex texture; an SVG pattern in the prototype, CSS gradients here.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -38,7 +38,7 @@ fun ProfilePage() {
     val theirs = AppState.reports.filter { it.authorId == user.id }.sortedByDescending { it.date }
 
     Column(Modifier.fillMaxWidth().padding(bottom = 90.px)) {
-        // баннер с гексовой текстурой
+        // banner with a hex texture
         Box(
             Modifier.fillMaxWidth().height(132.px).backgroundColor(T.Surface2)
                 .borderBottom(1.px, LineStyle.Solid, T.Border)

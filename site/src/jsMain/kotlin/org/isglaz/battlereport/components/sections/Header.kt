@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.sections
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/header.jsx
  * │ @design-part     Header · NewReportLink · MenuItem
- * │ @design-note     Табы и поиск из шапки удалены. Навигация: лого, карточки, ссылки в отчёте.
+ * │ @design-note     Tabs and search removed from the header. Navigation: logo, cards, links inside a report.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -31,8 +31,8 @@ import org.isglaz.battlereport.model.SampleData
 import org.isglaz.battlereport.theme.*
 
 /**
- * Шапка во всю ширину: лого слева, «New Report» + аватар справа.
- * Центральных табов и поиска в шапке НЕТ — так решено в дизайне.
+ * Full-width header: logo on the left, "New Report" + avatar on the right.
+ * There are NO center tabs and no search in the header - that is a design decision.
  */
 @Composable
 fun Header() {

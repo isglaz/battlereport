@@ -5,11 +5,11 @@ package org.isglaz.battlereport.data
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/data.jsx, br/app.jsx
  * │ @design-part     window.BR_DATA
- * │ @design-note     В прототипе данных нет по сети — этот слой добавлен для переезда на Ktor.
+ * │ @design-note     The prototype has no data over the network - this layer was added for the move to Ktor.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import kotlinx.browser.window
@@ -17,12 +17,12 @@ import kotlinx.coroutines.await
 import kotlinx.serialization.json.Json
 import org.isglaz.battlereport.model.*
 
-/**Kobweb-сервер — тогда BASE =
- *  * Единственное место, которое знает про сеть. Сейчас отдаёт SampleData;
- *  * раскомментируйте fetch-ветки, когда на сервере появятся соответствующие роуты.
+/**Kobweb server - then BASE =
+ *  * The only place that knows about the network. For now it returns SampleData;
+ *  * uncomment the fetch branches once the matching routes appear on the server.
  *  *
- *  * Ваш Ktor слушает :8080 (server/src/main/kotlin/Routing.kt). В деве удобнее
- *  * не хардкодить хост, а проксировать /api через "/api".
+ *  * Your Ktor listens on :8080 (server/src/main/kotlin/Routing.kt). In dev it is more
+ *  * convenient not to hardcode the host but to proxy /api through "/api".
  */
 object Api {
     private const val BASE = "http://localhost:8080"

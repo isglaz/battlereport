@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages.wargames
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/profile.jsx
  * │ @design-part     WargamesIndex
- * │ @design-note     Заголовок «Wargames» и подпись удалены из дизайна — не возвращайте.
+ * │ @design-note     The "Wargames" heading and the caption were removed from the design - do not bring them back.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -32,8 +32,8 @@ import org.isglaz.battlereport.model.*
 import org.isglaz.battlereport.theme.*
 
 /**
- * Список варгеймов. Заголовка страницы нет — сразу поиск по центру, потом сетка.
- * Поиск идёт по названию, издателю, дизайнеру и году.
+ * Wargame list. There is no page heading - the centered search comes first, then the grid.
+ * The search covers title, publisher, designer and year.
  */
 @Page("/wargames")
 @Composable

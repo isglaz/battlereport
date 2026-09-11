@@ -4,12 +4,12 @@ package org.isglaz.battlereport.components.widgets
  * ┌─ DESIGN SOURCE ─────────────────────────────────────────────────────────
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/profile.jsx
- * │ @design-part     WargamesIndex → строка поиска
- * │ @design-note     Живёт ТОЛЬКО на /wargames. В шапке поиска нет — это осознанное решение.
+ * │ @design-part     WargamesIndex -> search row
+ * │ @design-note     Lives ONLY on /wargames. There is no search in the header - a deliberate decision.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -28,8 +28,8 @@ import org.jetbrains.compose.web.dom.Input
 import org.isglaz.battlereport.theme.T
 
 /**
- * Pill-строка поиска. В дизайне живёт ТОЛЬКО на странице списка варгеймов,
- * по центру над сеткой — в шапке поиска нет.
+ * Pill search row. In the design it lives ONLY on the wargame list page,
+ * centered above the grid - there is no search in the header.
  */
 @Composable
 fun SearchField(value: String, placeholder: String, onChange: (String) -> Unit) {

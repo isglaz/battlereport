@@ -5,28 +5,28 @@ import jetbrains.buildServer.configs.kotlin.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.triggers.vcs
 
 /*
- * Конфигурация сборки в TeamCity (versioned settings, Kotlin DSL).
+ * TeamCity build configuration (versioned settings, Kotlin DSL).
  *
- * Чтобы TeamCity подхватил этот файл, в проекте нужно один раз включить
- * Versioned Settings -> Synchronization enabled, format Kotlin, указав этот репозиторий.
+ * For TeamCity to pick this file up, the project needs Versioned Settings -> Synchronization
+ * enabled once, format Kotlin, pointing at this repository.
  *
- * Пайплайн из трёх шагов, порядок жёсткий:
+ * A three-step pipeline, the order is strict:
  *   Build -> Migrate -> Deploy
- * Миграции применяются ДО подъёма нового кода: иначе новый сервер стартует на старой схеме.
+ * Migrations are applied BEFORE the new code comes up: otherwise the new server starts against the old schema.
  *
- * Параметры проекта, которые нужно задать в UI:
- *   REGISTRY      — хост registry, куда пушатся образы
- *   DEPLOY_HOST   — user@host прод-сервера
- *   DEPLOY_PATH   — путь до репозитория на прод-сервере
- *   DB_JDBC_URL   — JDBC-координаты прод-БД
+ * Project parameters that must be set in the UI:
+ *   REGISTRY      - registry host the images are pushed to
+ *   DEPLOY_HOST   - user@host of the production server
+ *   DEPLOY_PATH   - path to the repository on the production server
+ *   DB_JDBC_URL   - JDBC coordinates of the production database
  *   DB_USER
- *   DB_PASSWORD   — тип password, маскируется в логах
+ *   DB_PASSWORD   - password type, masked in the logs
  */
 
 version = "2025.03"
 
 project {
-    description = "BattleReport: сборка образов, миграции БД, деплой на прод"
+    description = "BattleReport: image builds, database migrations, production deployment"
 
     params {
         param("REGISTRY", "")
@@ -50,7 +50,7 @@ project {
 
 object Build : BuildType({
     name = "Build"
-    description = "Собирает образы server и site и пушит их в registry"
+    description = "Builds the server and site images and pushes them to the registry"
 
     vcs { root(DslContext.settingsRoot) }
 
@@ -72,15 +72,15 @@ object Build : BuildType({
 
 object Migrate : BuildType({
     name = "Migrate"
-    description = "Накатывает миграции на прод-БД до деплоя нового кода"
+    description = "Applies migrations to the production database before the new code is deployed"
 
     vcs { root(DslContext.settingsRoot) }
 
     steps {
         script {
             name = "liquibase update"
-            // migrate.sh читает координаты из окружения; пароль приходит password-параметром
-            // и маскируется в логах TeamCity.
+            // migrate.sh reads the coordinates from the environment; the password arrives as a
+            // password parameter and is masked in the TeamCity logs.
             scriptContent = """
                 set -eu
                 export DB_JDBC_URL='%DB_JDBC_URL%'
@@ -94,14 +94,14 @@ object Migrate : BuildType({
 
 object Deploy : BuildType({
     name = "Deploy"
-    description = "Обновляет compose-стек на прод-сервере"
+    description = "Updates the compose stack on the production server"
 
     vcs { root(DslContext.settingsRoot) }
 
     steps {
         script {
             name = "deploy over ssh"
-            // На сервере лежит .env с REGISTRY, TAG и координатами БД — вне репозитория.
+            // The server holds an .env with REGISTRY, TAG and the database coordinates - outside the repository.
             scriptContent = """
                 set -eu
                 ssh %DEPLOY_HOST% "cd %DEPLOY_PATH% \

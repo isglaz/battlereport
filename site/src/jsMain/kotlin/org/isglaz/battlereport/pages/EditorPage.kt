@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/editor.jsx
  * │ @design-part     Editor · TOOLBAR · DurationInput · FieldChip · AutoComplete · ToolBtn
- * │ @design-note     В TOOLBAR нет code-block; подписи «Markdown supported» нет. Длительность — два поля.
+ * │ @design-note     TOOLBAR has no code-block; there is no "Markdown supported" caption. Duration is two fields.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -40,9 +40,9 @@ import org.isglaz.battlereport.model.*
 import org.isglaz.battlereport.theme.*
 
 /**
- * Редактор: заголовок + метачипы, панель инструментов, split-панель markdown / превью.
- * Автосохранение в localStorage с дебаунсом 700ms — как в прототипе.
- * Кнопки code-block в панели НЕТ и подписи «Markdown supported» тоже — убраны в дизайне.
+ * Editor: title + meta chips, toolbar, markdown / preview split pane.
+ * Autosave to localStorage debounced by 700ms - as in the prototype.
+ * There is NO code-block button in the toolbar and no "Markdown supported" caption either - removed in the design.
  */
 @Page("/new")
 @Composable
@@ -62,7 +62,7 @@ fun EditorPage() {
     val canCreate = draft.title.isNotBlank() && draft.wargameId != null && draft.body.isNotBlank()
 
     Column(Modifier.fillMaxWidth().height(100.vh - T.HeaderH)) {
-        /* ---- верхняя панель ---- */
+        /* ---- top bar ---- */
         Box(Modifier.fillMaxWidth().backgroundColor(T.Surface)
             .borderBottom(1.px, LineStyle.Solid, T.Border)) {
             Column(ContainerStyle.toModifier().maxWidth(1320.px).padding(top = 18.px, bottom = 16.px)) {
@@ -92,7 +92,7 @@ fun EditorPage() {
                     }
                 }
 
-                /* ---- метачипы: варгейм, соперник, дата, длительность ---- */
+                /* ---- meta chips: wargame, opponent, date, duration ---- */
                 Row(Modifier.fillMaxWidth().gap(10.px).margin(top = 16.px).flexWrap(FlexWrap.Wrap),
                     verticalAlignment = Alignment.CenterVertically) {
                     PickerChip(
@@ -122,7 +122,7 @@ fun EditorPage() {
             }
         }
 
-        /* ---- панель инструментов ---- */
+        /* ---- toolbar ---- */
         Box(Modifier.fillMaxWidth().backgroundColor(T.Surface)
             .borderBottom(1.px, LineStyle.Solid, T.Border)) {
             Row(ContainerStyle.toModifier().maxWidth(1320.px).height(48.px).gap(2.px),
@@ -141,7 +141,7 @@ fun EditorPage() {
             }
         }
 
-        /* ---- split-панель ---- */
+        /* ---- split pane ---- */
         Row(Modifier.fillMaxWidth().flexGrow(1).minHeight(0.px)) {
             Box(Modifier.fillMaxWidth(50.percent).fillMaxHeight().overflow(Overflow.Auto)
                 .backgroundColor(T.Surface).borderRight(1.px, LineStyle.Solid, T.Border)) {
@@ -180,7 +180,7 @@ fun EditorPage() {
     }
 }
 
-/* ---------- части редактора ---------- */
+/* ---------- editor parts ---------- */
 
 private fun chipInputModifier() = Modifier
     .border(0.px).padding(0.px).outline(0.px, LineStyle.None, Colors.Transparent)
@@ -193,8 +193,8 @@ private fun FieldChip(content: @Composable () -> Unit) {
 }
 
 /**
- * Длительность = два числовых поля «Xh / YYm».
- * Нули — только плейсхолдеры, минуты ограничены 59, добиваются до двух цифр по blur.
+ * Duration = two numeric fields "Xh / YYm".
+ * The zeros are placeholders only, minutes are capped at 59 and padded to two digits on blur.
  */
 @Composable
 fun DurationInput(value: String, onChange: (String) -> Unit) {
@@ -262,7 +262,7 @@ private fun ToolSep() {
     Box(Modifier.width(1.px).height(22.px).margin(leftRight = 6.px).backgroundColor(T.Border))
 }
 
-/** Выпадающий выбор варгейма / соперника — порт AutoComplete из editor.jsx. */
+/** Dropdown picker for wargame / opponent - a port of AutoComplete from editor.jsx. */
 @Composable
 private fun PickerChip(
     current: String?,
@@ -327,7 +327,7 @@ private val PickerItemStyle = com.varabyte.kobweb.silk.style.CssStyle {
     hover { Modifier.backgroundColor(T.Surface2) }
 }
 
-/** Модалка подтверждения удаления черновика. */
+/** Confirmation modal for discarding a draft. */
 @Composable
 private fun DiscardDialog(onKeep: () -> Unit, onDiscard: () -> Unit) {
     Box(

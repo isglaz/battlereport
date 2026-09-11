@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages.wargames
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/profile.jsx
  * │ @design-part     WargameCard
- * │ @design-note     Рейтинг игры из дизайна убран.
+ * │ @design-note     The game rating was removed from the design.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*

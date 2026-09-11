@@ -10,15 +10,15 @@ CREATE TABLE users (
     handle       TEXT        NOT NULL,
     joined       TIMESTAMPTZ NOT NULL DEFAULT now(),
     bio          TEXT        NOT NULL DEFAULT '',
-    -- ключ в облачном хранилище, напр. "users/42/avatar.webp"; NULL → рисуем avatar_color
+    -- key in the cloud storage, e.g. "users/42/avatar.webp"; NULL -> draw avatar_color
     avatar_key   TEXT,
-    -- oklch-строка, fallback когда avatar_key IS NULL
+    -- oklch string, fallback when avatar_key IS NULL
     avatar_color TEXT        NOT NULL DEFAULT 'oklch(0.27 0 0)',
     created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- handle уникален без учёта регистра: @Ilya и @ilya — один и тот же человек
+-- handle is unique case-insensitively: @Ilya and @ilya are the same person
 CREATE UNIQUE INDEX users_handle_lower_key ON users (lower(handle));
 --rollback DROP TABLE users;
 
@@ -29,7 +29,7 @@ CREATE TABLE wargames (
     year       INTEGER     NOT NULL,
     publisher  TEXT        NOT NULL,
     designer   TEXT        NOT NULL,
-    -- fallback-подпись коробки, когда cover_key IS NULL
+    -- fallback box caption when cover_key IS NULL
     box_label  TEXT        NOT NULL,
     tagline    TEXT        NOT NULL,
     descr      TEXT        NOT NULL,
@@ -47,11 +47,11 @@ CREATE TABLE reports (
     author_id   UUID        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     wargame_id  UUID        NOT NULL REFERENCES wargames (id) ON DELETE RESTRICT,
     title       TEXT        NOT NULL,
-    -- дата партии, без времени
+    -- date of the session, without time
     date        DATE        NOT NULL,
     likes       INTEGER     NOT NULL DEFAULT 0,
     views       INTEGER     NOT NULL DEFAULT 0,
-    -- соперник может быть не зарегистрирован в системе
+    -- the opponent may not be registered in the system
     opponent_id UUID        REFERENCES users (id) ON DELETE SET NULL,
     duration    TEXT        NOT NULL DEFAULT '',
     preview     TEXT        NOT NULL DEFAULT '',
@@ -67,7 +67,7 @@ CREATE TABLE reports (
 
 CREATE INDEX reports_author_id_idx  ON reports (author_id);
 CREATE INDEX reports_wargame_id_idx ON reports (wargame_id);
--- лента: свежие отчёты первыми
+-- feed: newest reports first
 CREATE INDEX reports_date_idx       ON reports (date DESC);
 --rollback DROP TABLE reports;
 
@@ -76,7 +76,7 @@ CREATE TABLE comments (
     id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     report_id  UUID        NOT NULL REFERENCES reports (id) ON DELETE CASCADE,
     author_id  UUID        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    -- self-reference: дерево ответов собирается в сервисном слое
+    -- self-reference: the reply tree is assembled in the service layer
     parent_id  UUID        REFERENCES comments (id) ON DELETE CASCADE,
     date       TIMESTAMPTZ NOT NULL DEFAULT now(),
     text       TEXT        NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE comments (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- загрузка всей ветки обсуждения одного отчёта
+-- loading the whole discussion thread of a single report
 CREATE INDEX comments_report_id_date_idx ON comments (report_id, date);
 CREATE INDEX comments_parent_id_idx      ON comments (parent_id);
 CREATE INDEX comments_author_id_idx      ON comments (author_id);
@@ -94,9 +94,9 @@ CREATE INDEX comments_author_id_idx      ON comments (author_id);
 CREATE TABLE report_images (
     id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
     report_id   UUID        NOT NULL REFERENCES reports (id) ON DELETE CASCADE,
-    -- ключ в облачном хранилище, как avatar_key/cover_key
+    -- key in the cloud storage, like avatar_key/cover_key
     storage_key TEXT        NOT NULL,
-    -- порядок в галерее; markdown-тело ссылается на storage_key напрямую
+    -- order in the gallery; the markdown body references storage_key directly
     position    INTEGER     NOT NULL DEFAULT 0,
     caption     TEXT        NOT NULL DEFAULT '',
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -105,9 +105,9 @@ CREATE TABLE report_images (
     CONSTRAINT report_images_position_non_negative CHECK (position >= 0)
 );
 
--- один и тот же файл не должен числиться за отчётом дважды
+-- the same file must not be attached to a report twice
 CREATE UNIQUE INDEX report_images_report_id_storage_key_key ON report_images (report_id, storage_key);
--- выдача галереи в заданном порядке
+-- serving the gallery in the given order
 CREATE INDEX report_images_report_id_position_idx ON report_images (report_id, position);
 --rollback DROP TABLE report_images;
 
@@ -117,7 +117,7 @@ CREATE TABLE drafts (
     author_id   UUID        NOT NULL REFERENCES users (id) ON DELETE CASCADE,
     title       TEXT        NOT NULL DEFAULT '',
     body        TEXT        NOT NULL DEFAULT '',
-    -- в черновике игра и соперник ещё могут быть не выбраны
+    -- in a draft the game and the opponent may not be chosen yet
     wargame_id  UUID        REFERENCES wargames (id) ON DELETE SET NULL,
     opponent_id UUID        REFERENCES users (id) ON DELETE SET NULL,
     date        DATE,
@@ -129,8 +129,8 @@ CREATE TABLE drafts (
 CREATE INDEX drafts_author_id_updated_at_idx ON drafts (author_id, updated_at DESC);
 --rollback DROP TABLE drafts;
 
--- Тело plpgsql содержит ';', поэтому splitStatements:false — иначе Liquibase
--- разрежет функцию на куски по точке с запятой.
+-- The plpgsql body contains ';', hence splitStatements:false - otherwise Liquibase would
+-- cut the function into pieces at the semicolons.
 --changeset isglaz:1.0.0-01-updated-at-function splitStatements:false
 CREATE OR REPLACE FUNCTION set_updated_at() RETURNS TRIGGER AS $$
 BEGIN
@@ -140,7 +140,7 @@ END;
 $$ LANGUAGE plpgsql;
 --rollback DROP FUNCTION IF EXISTS set_updated_at() CASCADE;
 
--- Один триггер на все таблицы: updated_at обновляется без участия приложения.
+-- One trigger for all tables: updated_at is maintained without the application's involvement.
 --changeset isglaz:1.0.0-01-updated-at-triggers
 CREATE TRIGGER users_set_updated_at    BEFORE UPDATE ON users    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
 CREATE TRIGGER wargames_set_updated_at BEFORE UPDATE ON wargames FOR EACH ROW EXECUTE FUNCTION set_updated_at();

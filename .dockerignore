@@ -1,5 +1,5 @@
-# В контекст сборки уезжает весь репозиторий — отсекаем то, что образу не нужно
-# и что заметно раздувает контекст.
+# The whole repository goes into the build context - cut out what the image does not
+# need and what noticeably bloats the context.
 .git
 .gradle
 .kotlin
@@ -12,7 +12,7 @@ kotlin-js-store
 docs
 */docs
 
-# Локальные артефакты и секреты
+# Local artifacts and secrets
 .env
 .env.local
 *.mv.db

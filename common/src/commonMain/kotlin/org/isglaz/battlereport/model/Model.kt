@@ -5,18 +5,18 @@ package org.isglaz.battlereport.model
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/data.jsx
  * │ @design-part     USERS · WARGAMES · REPORTS · COMMENTS
- * │ @design-note     Поля соответствуют полям объектов в data.jsx (opponent → opponentId).
+ * │ @design-note     Fields match the object fields in data.jsx (opponent -> opponentId).
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import kotlinx.serialization.Serializable
 
 /**
- * Модели фронта. Специально плоские и совпадают с формой JSON, который отдаст
- * ваш Ktor-сервер (см. server/src/main/kotlin/UsersService.kt как образец Exposed-сервиса).
+ * Frontend models. Deliberately flat and matching the shape of the JSON the Ktor server will
+ * return (see server/src/main/kotlin/UsersService.kt as a sample Exposed service).
  */
 @Serializable
 data class User(
@@ -25,9 +25,9 @@ data class User(
     val handle: String,
     val joined: String,
     val bio: String = "",
-    /** ключ в облачном хранилище, напр. "users/42/avatar.webp"; null → рисуем avatarColor */
+    /** key in the cloud storage, e.g. "users/42/avatar.webp"; null -> draw avatarColor */
     val avatarKey: String? = null,
-    /** oklch-строка: единственный цвет во всём интерфейсе. Fallback, когда avatarKey == null */
+    /** oklch string: the only color in the whole interface. Fallback when avatarKey == null */
     val avatarColor: String = "oklch(0.27 0 0)",
 )
 
@@ -38,11 +38,11 @@ data class Wargame(
     val year: Int,
     val publisher: String,
     val designer: String,
-    /** Fallback, когда coverKey == null */
+    /** Fallback when coverKey == null */
     val boxLabel: String,
     val tagline: String,
     val desc: String,
-    /** ключ в облачном хранилище; null → рисуем boxLabel */
+    /** key in the cloud storage; null -> draw boxLabel */
     val coverKey: String? = null,
 )
 
@@ -61,16 +61,16 @@ data class Report(
     val preview: String = "",
     /** markdown */
     val body: String = "",
-    /** скриншоты партии в порядке галереи; в body на них ссылаются по storageKey */
+    /** session screenshots in gallery order; the body references them by storageKey */
     val images: List<ReportImage> = emptyList(),
 )
 
 @Serializable
 data class ReportImage(
     val id: String,
-    /** ключ в облачном хранилище, напр. "reports/17/turn-3.webp" */
+    /** key in the cloud storage, e.g. "reports/17/turn-3.webp" */
     val storageKey: String,
-    /** порядок в галерее */
+    /** order in the gallery */
     val position: Int = 0,
     val caption: String = "",
 )

@@ -5,13 +5,13 @@ import io.ktor.server.application.log
 import org.jetbrains.exposed.v1.r2dbc.R2dbcDatabase
 
 /**
- * Единственная точка подключения к БД.
+ * The single database connection point.
  *
- * Схему создаёт только Liquibase (каталог `migrations/liquibase`), приложение её не трогает:
- * никаких `SchemaUtils.create` — иначе получаются две расходящиеся версии схемы.
- * Миграции накатываются отдельным шагом деплоя до старта сервера, см. `deploy/migrate.sh`.
+ * The schema is created by Liquibase only (the `migrations/liquibase` directory), the application
+ * never touches it: no `SchemaUtils.create` - otherwise two diverging schema versions appear.
+ * Migrations are applied as a separate deployment step before the server starts, see `deploy/migrate.sh`.
  *
- * Координаты БД приходят из `application.conf`, который читает их из переменных окружения.
+ * The database coordinates come from `application.conf`, which reads them from environment variables.
  */
 fun Application.configureDatabase() {
     val config = environment.config

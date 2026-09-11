@@ -8,14 +8,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**
- * Поднимает приложение целиком поверх Postgres из Testcontainers: проверяется и то,
- * что changelog накатывается на чистую БД, и то, что сервер стартует на реальном Postgres.
+ * Starts the whole application on top of Postgres from Testcontainers: this checks both that
+ * the changelog applies to a clean database and that the server starts against a real Postgres.
  */
 class ServerTest : DatabaseTestBase() {
 
     @Test
     fun `test root endpoint`() = testApplication {
-        // Координаты контейнера подставляются поверх дефолтов из application.conf.
+        // The container coordinates are substituted over the defaults from application.conf.
         environment {
             config = MapApplicationConfig(
                 "db.url" to r2dbcUrl(),

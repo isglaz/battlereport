@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/report.jsx
  * │ @design-part     ReportView · CommentItem · CommentRow · metaItem()
- * │ @design-note     Раскладка: padding-left 340 / right 120, сайдбар 340px sticky. НЕ ContainerStyle.
+ * │ @design-note     Layout: padding-left 340 / right 120, sticky 340px sidebar. NOT ContainerStyle.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -35,9 +35,9 @@ import org.isglaz.battlereport.model.*
 import org.isglaz.battlereport.theme.*
 
 /**
- * Страница отчёта. ВАЖНО: центрированный ContainerStyle здесь не используется —
- * дизайн просит широкое пустое поле слева и прижатый к правому краю сайдбар:
- * padding-left 340px / padding-right 120px, сайдбар фиксированные 340px.
+ * Report page. IMPORTANT: the centered ContainerStyle is not used here -
+ * the design asks for a wide empty field on the left and a sidebar pinned to the right edge:
+ * padding-left 340px / padding-right 120px, sidebar fixed at 340px.
  */
 @Page("/reports/{id}")
 @Composable
@@ -55,7 +55,7 @@ fun ReportPage() {
         }
 
         Row(Modifier.fillMaxWidth().gap(24.px), verticalAlignment = Alignment.Top) {
-            /* ---- основная колонка ---- */
+            /* ---- main column ---- */
             Column(Modifier.flexGrow(1).minWidth(0.px)) {
                 Card(Modifier.padding(topBottom = 38.px, leftRight = 44.px)) {
                     game?.let {
@@ -100,7 +100,7 @@ fun ReportPage() {
                 CommentsSection(report.id)
             }
 
-            /* ---- сайдбар ---- */
+            /* ---- sidebar ---- */
             Column(
                 Modifier.width(340.px).flexShrink(0).gap(16.px)
                     .position(Position.Sticky).top(88.px)
@@ -150,7 +150,7 @@ private fun MetaItem(label: String, value: String, onClick: (() -> Unit)? = null
     }
 }
 
-/** Комментарии: плоский список, ответы с отступом под родителем. */
+/** Comments: a flat list, replies indented under their parent. */
 @Composable
 private fun CommentsSection(reportId: String) {
     val me = SampleData.me
@@ -166,7 +166,7 @@ private fun CommentsSection(reportId: String) {
             SpanText("· ${list.size}", Modifier.color(T.Faint).fontSize(19.px).fontWeight(400))
         }
 
-        // форма нового комментария
+        // new comment form
         Card(Modifier.padding(16.px).margin(bottom = 18.px)) {
             Row(Modifier.fillMaxWidth().gap(12.px)) {
                 Avatar(me, 38)
@@ -208,7 +208,7 @@ private fun CommentsSection(reportId: String) {
                         SpanText(L("reply"))
                     }
 
-                    // ответы — с левой линией, как в прототипе
+                    // replies - with a line on the left, as in the prototype
                     if (c.replies.isNotEmpty()) {
                         Column(Modifier.fillMaxWidth().margin(bottom = 6.px).padding(left = 14.px)
                             .borderLeft(1.px, LineStyle.Solid, T.Border)) {

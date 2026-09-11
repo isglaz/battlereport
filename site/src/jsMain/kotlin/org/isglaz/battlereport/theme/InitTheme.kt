@@ -5,11 +5,11 @@ package org.isglaz.battlereport.theme
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/styles.css
  * │ @design-part     html/body base · h1–h5 · a / a:hover · ::selection
- * │ @design-note     Секция «design tokens & base» в начале styles.css.
+ * │ @design-note     The "design tokens & base" section at the top of styles.css.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import com.varabyte.kobweb.compose.css.*
@@ -22,8 +22,8 @@ import com.varabyte.kobweb.silk.init.registerStyleBase
 import org.jetbrains.compose.web.css.*
 
 /**
- * Базовые стили документа. Заменяет ваш текущий initStyles в AppEntry.kt
- * (тот только выставлял fillMaxHeight).
+ * Base document styles. Replaces your current initStyles in AppEntry.kt
+ * (that one only set fillMaxHeight).
  */
 @InitSilk
 fun initBattleReportStyles(ctx: InitSilkContext) {
@@ -44,7 +44,7 @@ fun initBattleReportStyles(ctx: InitSilkContext) {
     ctx.stylesheet.registerStyleBase("p") {
         Modifier.styleModifier { property("text-wrap", "pretty") }
     }
-    // ссылки: без синевы по умолчанию — пользователь может добавить <a> в любой момент
+    // links: no default blue - the user can add an <a> at any moment
     ctx.stylesheet.registerStyleBase("a") {
         Modifier.color(T.Ink).textDecorationLine(TextDecorationLine.None)
     }

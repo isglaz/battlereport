@@ -44,7 +44,7 @@ kotlin {
             implementation(libs.kobweb.silk)
             implementation(libs.silk.icons.fa)
             implementation(libs.kobwebx.markdown)
-            implementation(libs.kobwebx.serialization.kotlinx)   // уже есть в каталоге
+            implementation(libs.kobwebx.serialization.kotlinx)   // already in the version catalog
             implementation(npm("marked", "12.0.2"))
         }
     }

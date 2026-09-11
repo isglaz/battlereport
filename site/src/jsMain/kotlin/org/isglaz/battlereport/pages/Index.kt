@@ -5,11 +5,11 @@ package org.isglaz.battlereport.pages
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/feed.jsx
  * │ @design-part     Feed
- * │ @design-note     Список, maxWidth 860px по центру.
+ * │ @design-note     A list, maxWidth 860px, centered.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -25,7 +25,7 @@ import org.isglaz.battlereport.model.AppState
 import org.isglaz.battlereport.theme.ContainerStyle
 import org.isglaz.battlereport.theme.T
 
-/** Лента: одна колонка карточек, максимум 860px, по центру. */
+/** Feed: a single column of cards, at most 860px, centered. */
 @Page
 @Composable
 fun HomePage() {

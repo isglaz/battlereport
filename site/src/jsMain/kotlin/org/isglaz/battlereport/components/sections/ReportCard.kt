@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.sections
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/feed.jsx
  * │ @design-part     ReportCard
- * │ @design-note     hideAuthor=true используется в профиле; layout=grid из прототипа не переносился.
+ * │ @design-note     hideAuthor=true is used on the profile; layout=grid from the prototype was not ported.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -29,7 +29,7 @@ import org.isglaz.battlereport.components.widgets.*
 import org.isglaz.battlereport.model.*
 import org.isglaz.battlereport.theme.*
 
-/** Карточка отчёта в ленте и в списках профиля / варгейма. */
+/** Report card in the feed and in the profile / wargame lists. */
 @Composable
 fun ReportCard(report: Report, hideAuthor: Boolean = false) {
     val ctx = rememberPageContext()

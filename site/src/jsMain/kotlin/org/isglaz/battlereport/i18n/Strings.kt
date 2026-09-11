@@ -5,19 +5,19 @@ package org.isglaz.battlereport.i18n
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/i18n.jsx
  * │ @design-part     STRINGS.en / STRINGS.ru · L() · useLang()/setLang()
- * │ @design-note     Ключи совпадают буква-в-букву. Новая строка в интерфейсе = новый ключ в ОБОИХ файлах.
+ * │ @design-note     The keys match letter for letter. A new string in the interface = a new key in BOTH files.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
 import kotlinx.browser.localStorage
 
 /**
- * Порт br/i18n.jsx. В React язык хранится в модульной переменной + Set подписчиков;
- * в Compose это обычный MutableState — перерисовка дерева происходит сама.
+ * Port of br/i18n.jsx. In React the language is kept in a module variable + a Set of subscribers;
+ * in Compose this is a plain MutableState - the tree redraws itself.
  */
 enum class Lang(val id: String, val label: String) {
     RU("ru", "Русский"),
@@ -42,14 +42,14 @@ object I18n {
 }
 
 /**
- * L("key") из прототипа. Читает I18n.lang → любой композабл, который её вызывает,
- * автоматически подписан на смену языка.
+ * L("key") from the prototype. Reads I18n.lang -> any composable that calls it is
+ * subscribed to language changes automatically.
  */
 @Composable
 @ReadOnlyComposable
 fun L(key: String, vararg vars: Pair<String, Any>): String = format(strings(I18n.lang), key, vars)
 
-/** Не-композабельный вариант, для строк вне composition (aria-label, title). */
+/** Non-composable variant, for strings outside composition (aria-label, title). */
 fun l(key: String, vararg vars: Pair<String, Any>): String = format(strings(I18n.lang), key, vars)
 
 private fun format(dict: Map<String, String>, key: String, vars: Array<out Pair<String, Any>>): String {

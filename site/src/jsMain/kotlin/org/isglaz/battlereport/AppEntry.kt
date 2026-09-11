@@ -5,11 +5,11 @@ package org.isglaz.battlereport
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/app.jsx, BattleReport.html
  * │ @design-part     App · .app-root · <main>
- * │ @design-note     Роутинг из useState заменён файловым @Page. Модалка discard уехала в EditorPage.
+ * │ @design-note     Routing from useState replaced by file-based @Page. The discard modal moved to EditorPage.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -31,8 +31,8 @@ import org.isglaz.battlereport.model.AppState
 import org.isglaz.battlereport.theme.AppRootStyle
 
 /**
- * Заменяет ваш текущий AppEntry.kt. Базовые стили переехали в theme/InitTheme.kt
- * (@InitSilk там), поэтому здесь остаётся только каркас: шапка, контент, футер.
+ * Replaces your current AppEntry.kt. The base styles moved to theme/InitTheme.kt
+ * (@InitSilk lives there), so only the skeleton remains here: header, content, footer.
  */
 @App
 @Composable
@@ -41,14 +41,14 @@ fun AppEntry(content: @Composable () -> Unit) {
         val ctx = rememberPageContext()
         val scope = rememberCoroutineScope()
 
-        // единственная загрузка данных на всё приложение
+        // the single data load for the whole application
         LaunchedEffect(Unit) {
             if (!AppState.loaded) {
                 scope.launch { AppState.seed(Api.reports(), Api.comments()) }
             }
         }
 
-        // в редакторе футер мешает split-панели
+        // in the editor the footer gets in the way of the split pane
         val isEditor = ctx.route.path == "/new"
 
         Surface(SmoothColorStyle.toModifier().then(AppRootStyle.toModifier()).minHeight(100.vh)) {

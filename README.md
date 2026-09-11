@@ -25,31 +25,31 @@ The entire app is written in **pure Kotlin** — backend and frontend alike:
 | Frontend | **Kobweb** (Kotlin/JS + Compose)   |
 | Build    | Gradle (Kotlin DSL)                |
 
-## 🚀 Запуск локально
+## 🚀 Running locally
 
-Нужен Docker.
+Docker is required.
 
 ```sh
-cp .env.example .env          # правки не обязательны, дефолты рабочие
-docker compose up -d postgres # БД
-./deploy/migrate.sh update    # схема
-docker compose up -d          # бэк на :8080, фронт на :8081
+cp .env.example .env          # edits are optional, the defaults work
+docker compose up -d postgres # database
+./deploy/migrate.sh update    # schema
+docker compose up -d          # backend on :8080, frontend on :8081
 ```
 
-Миграции — отдельный шаг: сервер их не применяет, схему создаёт только Liquibase.
-Подробности — в [migrations/README.md](migrations/README.md).
+Migrations are a separate step: the server does not apply them, only Liquibase creates the schema.
+Details are in [migrations/README.md](migrations/README.md).
 
-## ⚙️ Конфигурация
+## ⚙️ Configuration
 
-Единственный источник — переменные окружения. Локально они лежат в `.env`
-(создаётся из `.env.example`, в репозиторий не коммитится), на проде — в `.env`
-на сервере, который заполняет TeamCity. Полный список — в `.env.example`.
+Environment variables are the single source. Locally they live in `.env`
+(created from `.env.example`, not committed), in production in the `.env`
+on the server, which TeamCity fills in. The full list is in `.env.example`.
 
-## 📦 Деплой
+## 📦 Deployment
 
 ```
-Build (образы) -> Migrate (liquibase update) -> Deploy (compose up)
+Build (images) -> Migrate (liquibase update) -> Deploy (compose up)
 ```
 
-Пайплайн описан в `.teamcity/settings.kts`, шаги — в `deploy/`.
-Порядок жёсткий: миграции применяются до подъёма нового кода.
+The pipeline is described in `.teamcity/settings.kts`, the steps in `deploy/`.
+The order is strict: migrations are applied before the new code comes up.

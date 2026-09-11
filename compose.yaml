@@ -1,10 +1,10 @@
-# Локальное окружение: БД, бэк и фронт одной командой `docker compose up`.
+# Local environment: database, backend and frontend with a single `docker compose up`.
 #
-# Миграции сюда намеренно не входят — это отдельный осознанный шаг деплоя,
-# и сервер их не применяет: `./deploy/migrate.sh update`.
+# Migrations are deliberately left out - they are a separate, deliberate deployment step,
+# and the server does not apply them: `./deploy/migrate.sh update`.
 #
-# Прод использует этот же файл с оверлеем compose.prod.yaml, где вместо сборки
-# из исходников подставляются образы из registry.
+# Production uses this same file with the compose.prod.yaml overlay, where images from the
+# registry are substituted instead of building from sources.
 
 services:
   postgres:
@@ -18,7 +18,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      # Сервер стартует только после того, как БД реально готова принимать соединения.
+      # The server starts only once the database is actually ready to accept connections.
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s

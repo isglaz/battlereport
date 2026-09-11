@@ -1,8 +1,8 @@
-# Мастер-changelog. Каталог с миграциями самодостаточен: никакой сборки, никакого
-# classpath — Liquibase читает файлы с диска, поэтому пути относительны этому файлу.
+# Master changelog. The migrations directory is self-contained: no build, no classpath -
+# Liquibase reads the files from disk, so the paths are relative to this file.
 #
-# Одна папка на версию схемы. Новый файл внутри папки подхватывается сам,
-# порядок применения — лексикографический, поэтому префикс NN- в имени обязателен.
+# One folder per schema version. A new file inside a folder is picked up automatically; the
+# apply order is lexicographic, so the NN- prefix in the name is mandatory.
 databaseChangeLog:
   - includeAll:
       path: v-1.0.0

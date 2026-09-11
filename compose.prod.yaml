@@ -1,8 +1,8 @@
-# Оверлей для прода: образы берутся из registry, а не собираются на сервере.
+# Production overlay: images are pulled from the registry instead of being built on the server.
 #
 #   docker compose -f compose.yaml -f compose.prod.yaml up -d
 #
-# REGISTRY и TAG приходят из .env на сервере, который заполняет TeamCity.
+# REGISTRY and TAG come from the .env on the server, which TeamCity fills in.
 
 services:
   postgres:
@@ -10,7 +10,7 @@ services:
 
   server:
     image: ${REGISTRY}/battlereport-server:${TAG}
-    # Сбрасываем build из базового файла: на проде из исходников не собираем.
+    # Reset build from the base file: in production we do not build from sources.
     build: !reset null
     restart: unless-stopped
 

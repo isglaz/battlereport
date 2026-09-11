@@ -1,34 +1,34 @@
 #!/bin/sh
-# Накат миграций официальным образом Liquibase. Один и тот же скрипт локально и в TeamCity:
-# каталог migrations/liquibase самодостаточен, собирать нечего.
+# Applies migrations with the official Liquibase image. The same script runs locally and in
+# TeamCity: the migrations/liquibase directory is self-contained, there is nothing to build.
 #
 #   ./deploy/migrate.sh            # update
 #   ./deploy/migrate.sh status
-#   ./deploy/migrate.sh update-sql # показать SQL, ничего не применяя
+#   ./deploy/migrate.sh update-sql # print the SQL without applying anything
 #   ./deploy/migrate.sh rollback-count --count=1
 #
-# Координаты БД — из окружения (.env локально, параметры TeamCity на проде).
+# Database coordinates come from the environment (.env locally, TeamCity parameters in production).
 set -eu
 
-# Версия держится в согласии с `liquibase` в gradle/libs.versions.toml,
-# чтобы тесты и прод катали миграции одной и той же версией.
+# The version is kept in sync with `liquibase` in gradle/libs.versions.toml so that tests and
+# production run migrations with the very same version.
 LIQUIBASE_IMAGE="liquibase/liquibase:4.32"
 
 REPO_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 COMMAND=${1:-update}
 [ $# -gt 0 ] && shift
 
-# Git Bash на Windows переписывает пути, похожие на unix-овые, в windows-овые, и путь
-# назначения тома превращается в мусор — том молча не монтируется. Отключаем конвертацию.
+# Git Bash on Windows rewrites unix-looking paths into windows ones, and the volume
+# destination path turns into garbage - the volume silently fails to mount. Disable the conversion.
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL='*'
 
-: "${DB_JDBC_URL:?DB_JDBC_URL не задан (см. .env.example)}"
-: "${DB_USER:?DB_USER не задан}"
-: "${DB_PASSWORD:?DB_PASSWORD не задан}"
+: "${DB_JDBC_URL:?DB_JDBC_URL is not set (see .env.example)}"
+: "${DB_USER:?DB_USER is not set}"
+: "${DB_PASSWORD:?DB_PASSWORD is not set}"
 
-# Контейнеру нужен доступ к БД. Если Postgres поднят этим же compose-проектом,
-# он живёт в его сети — подключаемся к ней, тогда хост `postgres` из DB_JDBC_URL резолвится.
+# The container needs access to the database. If Postgres was started by this same compose
+# project it lives in its network - join that network so the `postgres` host from DB_JDBC_URL resolves.
 NETWORK_ARG=""
 if [ -n "${COMPOSE_NETWORK:-}" ]; then
     NETWORK_ARG="--network=${COMPOSE_NETWORK}"

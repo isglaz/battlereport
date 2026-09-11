@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.widgets
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/md.jsx, br/styles.css
  * │ @design-part     renderMarkdown() · .md
- * │ @design-note     В прототипе свой мини-парсер; здесь npm marked. Стили .md — в theme/Theme.kt MarkdownStyle.
+ * │ @design-note     The prototype has its own mini parser; here it is npm marked. The .md styles are in theme/Theme.kt MarkdownStyle.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -20,9 +20,9 @@ import org.jetbrains.compose.web.dom.Div
 import org.isglaz.battlereport.theme.MarkdownStyle
 
 /**
- * Живой markdown (лента пишется в редакторе, значит парсер нужен в рантайме).
- * kobwebx-markdown у вас подключён, но он компилирует .md ФАЙЛЫ в страницы на этапе сборки —
- * для превью по мере набора нужен рантайм-парсер, поэтому берём npm-библиотеку marked:
+ * Live markdown (the body is written in the editor, so the parser is needed at runtime).
+ * kobwebx-markdown is wired up, but it compiles .md FILES into pages at build time -
+ * a preview while typing needs a runtime parser, hence the npm library marked:
  *
  *   jsMain.dependencies { implementation(npm("marked", "12.0.2")) }
  */

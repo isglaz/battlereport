@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.widgets
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/ui.jsx
  * │ @design-part     formatDate() · timeAgo() · fmtNum()
- * │ @design-note     «Сегодня» в прототипе зафиксировано на 2026-06-06 для стабильных сидов.
+ * │ @design-note     "Today" is pinned to 2026-06-06 in the prototype for stable seeds.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import org.isglaz.battlereport.i18n.I18n
@@ -17,7 +17,7 @@ import org.isglaz.battlereport.i18n.Lang
 import org.isglaz.battlereport.i18n.l
 import kotlin.js.Date
 
-/** Порт formatDate / timeAgo / fmtNum из br/ui.jsx, с локалью из I18n. */
+/** Port of formatDate / timeAgo / fmtNum from br/ui.jsx, with the locale from I18n. */
 fun formatDate(iso: String): String {
     val d = Date(if (iso.length == 10) "${iso}T12:00:00" else iso)
     val locale = if (I18n.lang == Lang.RU) "ru-RU" else "en-US"

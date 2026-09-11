@@ -5,17 +5,17 @@ package org.isglaz.battlereport.model
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/data.jsx
  * │ @design-part     USERS/WARGAMES/REPORTS/COMMENTS · AVATAR_COLORS · BODY_ASL…BODY_SL
- * │ @design-note     Тексты отчётов в прототипе полные — при желании копируются как есть в raw strings.
+ * │ @design-note     The report texts in the prototype are complete - they can be copied as-is into raw strings.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 /**
- * Сид-данные из br/data.jsx — чтобы страницы можно было верстать до появления API.
- * Полные тексты отчётов лежат в прототипе (BODY_ASL и т.д.); здесь оставлены
- * первые абзацы, дописать можно копипастой.
+ * Seed data from br/data.jsx - so the pages can be laid out before the API exists.
+ * The full report texts live in the prototype (BODY_ASL and so on); only the first
+ * paragraphs are kept here, the rest can be filled in by copy-paste.
  */
 object SampleData {
 
@@ -117,6 +117,6 @@ object SampleData {
         "r6" to listOf(Comment("c9", "mapfolder", "2026-05-21", "The original boards have such character.")),
     )
 
-    /** Текущий пользователь — заглушка до появления аутентификации. */
+    /** The current user - a stub until authentication exists. */
     val me get() = users.getValue("greywolf")
 }

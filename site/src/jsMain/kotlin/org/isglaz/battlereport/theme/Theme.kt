@@ -4,12 +4,12 @@ package org.isglaz.battlereport.theme
  * ┌─ DESIGN SOURCE ─────────────────────────────────────────────────────────
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/styles.css
- * │ @design-part     :root (токены) · .btn/.btn-primary/.btn-ghost/.btn-quiet/.btn-soft · .card · .chip · .input · .md · .container
- * │ @design-note     Все значения — прямые копии oklch-констант. Меняете цвет в styles.css → меняете здесь в object T.
+ * │ @design-part     :root (tokens) · .btn/.btn-primary/.btn-ghost/.btn-quiet/.btn-soft · .card · .chip · .input · .md · .container
+ * │ @design-note     All values are direct copies of the oklch constants. Change a color in styles.css -> change it here in object T.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import com.varabyte.kobweb.compose.css.*
@@ -26,8 +26,8 @@ import com.varabyte.kobweb.silk.style.selectors.hover
 import org.jetbrains.compose.web.css.*
 
 /**
- * Порт br/styles.css. Значения — ровно те же oklch-константы, что в прототипе:
- * монохром, единственный цвет во всём интерфейсе — фон аватара.
+ * Port of br/styles.css. The values are exactly the same oklch constants as in the prototype:
+ * monochrome, the only color in the whole interface is the avatar background.
  */
 object T {
     val Ink = Color("oklch(0.2 0 0)")
@@ -61,7 +61,7 @@ object T {
     val MaxW = 1180.px
 }
 
-/** Центрированный контейнер (.container). Страница отчёта его НЕ использует — см. ReportPage. */
+/** Centered container (.container). The report page does NOT use it - see ReportPage. */
 val ContainerStyle = CssStyle.base {
     Modifier.fillMaxWidth().maxWidth(T.MaxW).margin(leftRight = autoLength).padding(leftRight = 28.px)
 }
@@ -70,7 +70,7 @@ val AppRootStyle = CssStyle.base {
     Modifier.minHeight(100.vh).display(DisplayStyle.Flex).flexDirection(FlexDirection.Column)
 }
 
-/* ---- .btn и варианты ---- */
+/* ---- .btn and variants ---- */
 val BtnStyle = CssStyle.base {
     Modifier
         .display(DisplayStyle.LegacyInlineFlex).alignItems(AlignItems.Center).gap(8.px)
@@ -102,7 +102,7 @@ val BtnSoftStyle = CssStyle {
     hover { Modifier.styleModifier { borderColor(T.BorderStrong) }.color(T.Ink) }
 }
 
-/** Текстовая кнопка «New Report» в шапке — без рамки и фона. */
+/** The textual "New Report" button in the header - no border and no background. */
 val BtnTextStyle = CssStyle {
     base {
         Modifier.display(DisplayStyle.LegacyInlineFlex).alignItems(AlignItems.Center).gap(6.px)
@@ -121,7 +121,7 @@ val CardStyle = CssStyle.base {
         .styleModifier { property("box-shadow", T.ShSm) }
 }
 
-/** Карточка-ссылка: наведение поднимает и усиливает тень (лента, сетка варгеймов). */
+/** Link card: hover lifts it and strengthens the shadow (feed, wargame grid). */
 val CardHoverStyle = CssStyle {
     base { Modifier.transition(Transition.group(listOf("box-shadow", "border-color", "transform"), 180.ms)) }
     hover {
@@ -152,13 +152,13 @@ val InputStyle = CssStyle {
     }
 }
 
-/** Заголовок-надпись над значением в сайдбаре: 11.5px, uppercase, трекинг. */
+/** Caption above a value in the sidebar: 11.5px, uppercase, tracking. */
 val EyebrowStyle = CssStyle.base {
     Modifier.fontSize(11.5.px).textTransform(TextTransform.Uppercase)
         .letterSpacing(0.06.em).color(T.Faint)
 }
 
-/** Рендер markdown (.md из styles.css). */
+/** Markdown rendering (.md from styles.css). */
 val MarkdownStyle = CssStyle {
     base { Modifier.color(T.Ink2).fontSize(16.5.px).lineHeight(1.68) }
     cssRule(" h1") { Modifier.fontSize(1.9.em).margin(top = 1.1.em, bottom = 0.5.em).color(T.Ink).fontWeight(600) }

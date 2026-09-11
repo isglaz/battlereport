@@ -5,11 +5,11 @@ package org.isglaz.battlereport.components.sections
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/footer.jsx
  * │ @design-part     Footer · LangBtn
- * │ @design-note     Один ряд: Support слева, язык справа. Паддинги 18px. Скрыт на /new.
+ * │ @design-note     One row: Support on the left, language on the right. Padding 18px. Hidden on /new.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -26,7 +26,7 @@ import org.jetbrains.compose.web.css.*
 import org.isglaz.battlereport.i18n.*
 import org.isglaz.battlereport.theme.*
 
-/** Футер: «Support» слева, переключатель языка справа. Низкий — паддинги 18px. */
+/** Footer: "Support" on the left, language switcher on the right. Low - padding 18px. */
 @Composable
 fun Footer() {
     Box(

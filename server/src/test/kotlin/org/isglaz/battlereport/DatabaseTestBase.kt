@@ -12,20 +12,20 @@ import java.io.File
 import java.sql.DriverManager
 
 /**
- * База для тестов, которым нужна настоящая БД.
+ * Base class for tests that need a real database.
  *
- * Поднимает Postgres в Testcontainers и накатывает на него ровно тот же changelog,
- * что уедет в прод. Схема в тестах не описывается отдельно: если миграция сломана,
- * тесты падают здесь, а не на проде.
+ * Starts Postgres in Testcontainers and applies to it exactly the same changelog that will go
+ * to production. The schema is not described separately in tests: if a migration is broken, the
+ * tests fail here rather than in production.
  *
- * Требует запущенного Docker.
+ * Requires a running Docker.
  */
 abstract class DatabaseTestBase {
 
     companion object {
         /**
-         * Каталог с миграциями лежит вне модуля :server, поэтому путь строится от корня
-         * репозитория: рабочая директория тестов — это `server/`.
+         * The migrations directory lives outside the :server module, so the path is built from the
+         * repository root: the working directory of the tests is `server/`.
          */
         private val changelogDir: File = File("../migrations/liquibase").canonicalFile
 
@@ -49,17 +49,17 @@ abstract class DatabaseTestBase {
             postgres.stop()
         }
 
-        /** Прогоняет `liquibase update` тем же changelog-ом, что использует деплой. */
+        /** Runs `liquibase update` with the same changelog the deployment uses. */
         private fun migrate() {
-            check(changelogDir.isDirectory) { "Каталог с миграциями не найден: $changelogDir" }
+            check(changelogDir.isDirectory) { "Migrations directory not found: $changelogDir" }
 
             DriverManager.getConnection(postgres.jdbcUrl, postgres.username, postgres.password)
                 .use { connection ->
                     val database = DatabaseFactory.getInstance()
                         .findCorrectDatabaseImplementation(JdbcConnection(connection))
 
-                    // resourceAccessor берётся из Scope, а не из аргументов команды:
-                    // иначе Liquibase ищет changelog относительно рабочей директории и не находит.
+                    // resourceAccessor is taken from the Scope rather than from the command arguments:
+                    // otherwise Liquibase looks for the changelog relative to the working directory and fails to find it.
                     Scope.child(
                         Scope.Attr.resourceAccessor.name,
                         DirectoryResourceAccessor(changelogDir),
@@ -72,7 +72,7 @@ abstract class DatabaseTestBase {
                 }
         }
 
-        /** Координаты поднятой БД в том виде, в каком их ждёт application.conf. */
+        /** Coordinates of the started database in the form application.conf expects. */
         @JvmStatic
         protected fun r2dbcUrl(): String =
             "r2dbc:postgresql://${postgres.host}:${postgres.firstMappedPort}/${postgres.databaseName}"

@@ -5,11 +5,11 @@ package org.isglaz.battlereport.model
  * │ @design-project  BattleReport (Omelette) → BattleReport.html
  * │ @design-file     br/app.jsx
  * │ @design-part     likes/toggleLike · comments/addComment/addReply · draft + localStorage "br_draft"
- * │ @design-note     Ключ localStorage тот же, что в прототипе.
+ * │ @design-note     The localStorage key is the same as in the prototype.
  * └─────────────────────────────────────────────────────────────────────────
  *
- * Правки визуала делаются СНАЧАЛА в файлах прототипа выше, потом переносятся сюда:
- * прототип остаётся источником истины по дизайну. Полная карта — DESIGN-MAP.md.
+ * Visual changes are made FIRST in the prototype files listed above, then ported here:
+ * the prototype stays the source of truth for design. Full map: DESIGN-MAP.md.
  */
 
 import androidx.compose.runtime.*
@@ -17,9 +17,9 @@ import kotlinx.browser.localStorage
 import kotlinx.serialization.json.Json
 
 /**
- * Замена React-стейта из br/app.jsx: лайки, комментарии, черновик.
- * Пока in-memory + localStorage. Когда появятся эндпоинты — замените тела
- * методов на вызовы Api (см. data/Api.kt) и держите здесь только кэш.
+ * Replacement for the React state from br/app.jsx: likes, comments, draft.
+ * In-memory + localStorage for now. Once the endpoints appear - replace the method
+ * bodies with Api calls (see data/Api.kt) and keep only the cache here.
  */
 object AppState {
     private val json = Json { ignoreUnknownKeys = true }
@@ -27,7 +27,7 @@ object AppState {
     val reports = mutableStateListOf<Report>()
     val comments = mutableStateMapOf<String, MutableList<Comment>>()
 
-    /** reportId -> (счётчик, лайкнул ли текущий пользователь) */
+    /** reportId -> (counter, whether the current user liked it) */
     private val likeOverrides = mutableStateMapOf<String, Pair<Int, Boolean>>()
 
     var loaded by mutableStateOf(false)
@@ -66,7 +66,7 @@ object AppState {
 
     private fun nextId() = kotlin.js.Date.now().toLong().toString(36)
 
-    /* ---- черновик: тот же ключ localStorage, что в прототипе ---- */
+    /* ---- draft: the same localStorage key as in the prototype ---- */
     private const val DRAFT_KEY = "br_draft"
 
     fun loadDraft(): Draft = runCatching {
