@@ -21,10 +21,7 @@ import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
 import org.jetbrains.compose.web.css.*
 
-/**
- * Base document styles. Replaces your current initStyles in AppEntry.kt
- * (that one only set fillMaxHeight).
- */
+/** Base document styles. */
 @InitSilk
 fun initBattleReportStyles(ctx: InitSilkContext) {
     ctx.stylesheet.registerStyleBase("html, body") {
@@ -44,7 +41,6 @@ fun initBattleReportStyles(ctx: InitSilkContext) {
     ctx.stylesheet.registerStyleBase("p") {
         Modifier.styleModifier { property("text-wrap", "pretty") }
     }
-    // links: no default blue - the user can add an <a> at any moment
     ctx.stylesheet.registerStyleBase("a") {
         Modifier.color(T.Ink).textDecorationLine(TextDecorationLine.None)
     }

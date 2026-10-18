@@ -38,7 +38,6 @@ fun ProfilePage() {
     val theirs = AppState.reports.filter { it.authorId == user.id }.sortedByDescending { it.date }
 
     Column(Modifier.fillMaxWidth().padding(bottom = 90.px)) {
-        // banner with a hex texture
         Box(
             Modifier.fillMaxWidth().height(132.px).backgroundColor(T.Surface2)
                 .borderBottom(1.px, LineStyle.Solid, T.Border)

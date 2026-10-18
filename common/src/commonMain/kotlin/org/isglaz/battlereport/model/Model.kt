@@ -25,9 +25,7 @@ data class User(
     val handle: String,
     val joined: String,
     val bio: String = "",
-    /** key in the cloud storage, e.g. "users/42/avatar.webp"; null -> draw avatarColor */
     val avatarKey: String? = null,
-    /** oklch string: the only color in the whole interface. Fallback when avatarKey == null */
     val avatarColor: String = "oklch(0.27 0 0)",
 )
 
@@ -38,11 +36,9 @@ data class Wargame(
     val year: Int,
     val publisher: String,
     val designer: String,
-    /** Fallback when coverKey == null */
     val boxLabel: String,
     val tagline: String,
     val desc: String,
-    /** key in the cloud storage; null -> draw boxLabel */
     val coverKey: String? = null,
 )
 
@@ -52,25 +48,20 @@ data class Report(
     val authorId: String,
     val wargameId: String,
     val title: String,
-    /** ISO yyyy-MM-dd */
     val date: String,
     val likes: Int = 0,
     val views: Int = 0,
     val opponentId: String? = null,
     val duration: String = "",
     val preview: String = "",
-    /** markdown */
     val body: String = "",
-    /** session screenshots in gallery order; the body references them by storageKey */
     val images: List<ReportImage> = emptyList(),
 )
 
 @Serializable
 data class ReportImage(
     val id: String,
-    /** key in the cloud storage, e.g. "reports/17/turn-3.webp" */
     val storageKey: String,
-    /** order in the gallery */
     val position: Int = 0,
     val caption: String = "",
 )

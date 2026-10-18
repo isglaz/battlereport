@@ -15,7 +15,6 @@ class ServerTest : DatabaseTestBase() {
 
     @Test
     fun `test root endpoint`() = testApplication {
-        // The container coordinates are substituted over the defaults from application.conf.
         environment {
             config = MapApplicationConfig(
                 "db.url" to r2dbcUrl(),

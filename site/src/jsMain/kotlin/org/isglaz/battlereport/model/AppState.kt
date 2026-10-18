@@ -27,7 +27,6 @@ object AppState {
     val reports = mutableStateListOf<Report>()
     val comments = mutableStateMapOf<String, MutableList<Comment>>()
 
-    /** reportId -> (counter, whether the current user liked it) */
     private val likeOverrides = mutableStateMapOf<String, Pair<Int, Boolean>>()
 
     var loaded by mutableStateOf(false)
@@ -66,7 +65,6 @@ object AppState {
 
     private fun nextId() = kotlin.js.Date.now().toLong().toString(36)
 
-    /* ---- draft: the same localStorage key as in the prototype ---- */
     private const val DRAFT_KEY = "br_draft"
 
     fun loadDraft(): Draft = runCatching {

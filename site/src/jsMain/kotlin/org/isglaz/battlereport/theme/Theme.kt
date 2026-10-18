@@ -70,7 +70,6 @@ val AppRootStyle = CssStyle.base {
     Modifier.minHeight(100.vh).display(DisplayStyle.Flex).flexDirection(FlexDirection.Column)
 }
 
-/* ---- .btn and variants ---- */
 val BtnStyle = CssStyle.base {
     Modifier
         .display(DisplayStyle.LegacyInlineFlex).alignItems(AlignItems.Center).gap(8.px)
@@ -113,7 +112,6 @@ val BtnTextStyle = CssStyle {
     hover { Modifier.color(T.Ink) }
 }
 
-/* ---- .card ---- */
 val CardStyle = CssStyle.base {
     Modifier.backgroundColor(T.Bg)
         .border(1.px, LineStyle.Solid, T.Border)

@@ -30,10 +30,7 @@ import org.isglaz.battlereport.data.Api
 import org.isglaz.battlereport.model.AppState
 import org.isglaz.battlereport.theme.AppRootStyle
 
-/**
- * Replaces your current AppEntry.kt. The base styles moved to theme/InitTheme.kt
- * (@InitSilk lives there), so only the skeleton remains here: header, content, footer.
- */
+/** Application skeleton: header, content, footer. */
 @App
 @Composable
 fun AppEntry(content: @Composable () -> Unit) {
@@ -41,14 +38,12 @@ fun AppEntry(content: @Composable () -> Unit) {
         val ctx = rememberPageContext()
         val scope = rememberCoroutineScope()
 
-        // the single data load for the whole application
         LaunchedEffect(Unit) {
             if (!AppState.loaded) {
                 scope.launch { AppState.seed(Api.reports(), Api.comments()) }
             }
         }
 
-        // in the editor the footer gets in the way of the split pane
         val isEditor = ctx.route.path == "/new"
 
         Surface(SmoothColorStyle.toModifier().then(AppRootStyle.toModifier()).minHeight(100.vh)) {

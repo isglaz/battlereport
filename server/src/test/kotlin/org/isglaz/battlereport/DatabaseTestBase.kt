@@ -23,10 +23,6 @@ import java.sql.DriverManager
 abstract class DatabaseTestBase {
 
     companion object {
-        /**
-         * The migrations directory lives outside the :server module, so the path is built from the
-         * repository root: the working directory of the tests is `server/`.
-         */
         private val changelogDir: File = File("../migrations/liquibase").canonicalFile
 
         @JvmStatic
@@ -49,7 +45,6 @@ abstract class DatabaseTestBase {
             postgres.stop()
         }
 
-        /** Runs `liquibase update` with the same changelog the deployment uses. */
         private fun migrate() {
             check(changelogDir.isDirectory) { "Migrations directory not found: $changelogDir" }
 
@@ -58,8 +53,6 @@ abstract class DatabaseTestBase {
                     val database = DatabaseFactory.getInstance()
                         .findCorrectDatabaseImplementation(JdbcConnection(connection))
 
-                    // resourceAccessor is taken from the Scope rather than from the command arguments:
-                    // otherwise Liquibase looks for the changelog relative to the working directory and fails to find it.
                     Scope.child(
                         Scope.Attr.resourceAccessor.name,
                         DirectoryResourceAccessor(changelogDir),
@@ -72,7 +65,6 @@ abstract class DatabaseTestBase {
                 }
         }
 
-        /** Coordinates of the started database in the form application.conf expects. */
         @JvmStatic
         protected fun r2dbcUrl(): String =
             "r2dbc:postgresql://${postgres.host}:${postgres.firstMappedPort}/${postgres.databaseName}"

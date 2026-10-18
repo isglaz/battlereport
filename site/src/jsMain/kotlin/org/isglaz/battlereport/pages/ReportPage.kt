@@ -55,7 +55,6 @@ fun ReportPage() {
         }
 
         Row(Modifier.fillMaxWidth().gap(24.px), verticalAlignment = Alignment.Top) {
-            /* ---- main column ---- */
             Column(Modifier.flexGrow(1).minWidth(0.px)) {
                 Card(Modifier.padding(topBottom = 38.px, leftRight = 44.px)) {
                     game?.let {
@@ -100,7 +99,6 @@ fun ReportPage() {
                 CommentsSection(report.id)
             }
 
-            /* ---- sidebar ---- */
             Column(
                 Modifier.width(340.px).flexShrink(0).gap(16.px)
                     .position(Position.Sticky).top(88.px)
@@ -166,7 +164,6 @@ private fun CommentsSection(reportId: String) {
             SpanText("· ${list.size}", Modifier.color(T.Faint).fontSize(19.px).fontWeight(400))
         }
 
-        // new comment form
         Card(Modifier.padding(16.px).margin(bottom = 18.px)) {
             Row(Modifier.fillMaxWidth().gap(12.px)) {
                 Avatar(me, 38)
@@ -208,7 +205,6 @@ private fun CommentsSection(reportId: String) {
                         SpanText(L("reply"))
                     }
 
-                    // replies - with a line on the left, as in the prototype
                     if (c.replies.isNotEmpty()) {
                         Column(Modifier.fillMaxWidth().margin(bottom = 6.px).padding(left = 14.px)
                             .borderLeft(1.px, LineStyle.Solid, T.Border)) {

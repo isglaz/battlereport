@@ -62,7 +62,6 @@ fun EditorPage() {
     val canCreate = draft.title.isNotBlank() && draft.wargameId != null && draft.body.isNotBlank()
 
     Column(Modifier.fillMaxWidth().height(100.vh - T.HeaderH)) {
-        /* ---- top bar ---- */
         Box(Modifier.fillMaxWidth().backgroundColor(T.Surface)
             .borderBottom(1.px, LineStyle.Solid, T.Border)) {
             Column(ContainerStyle.toModifier().maxWidth(1320.px).padding(top = 18.px, bottom = 16.px)) {
@@ -92,7 +91,6 @@ fun EditorPage() {
                     }
                 }
 
-                /* ---- meta chips: wargame, opponent, date, duration ---- */
                 Row(Modifier.fillMaxWidth().gap(10.px).margin(top = 16.px).flexWrap(FlexWrap.Wrap),
                     verticalAlignment = Alignment.CenterVertically) {
                     PickerChip(
@@ -122,7 +120,6 @@ fun EditorPage() {
             }
         }
 
-        /* ---- toolbar ---- */
         Box(Modifier.fillMaxWidth().backgroundColor(T.Surface)
             .borderBottom(1.px, LineStyle.Solid, T.Border)) {
             Row(ContainerStyle.toModifier().maxWidth(1320.px).height(48.px).gap(2.px),
@@ -141,7 +138,6 @@ fun EditorPage() {
             }
         }
 
-        /* ---- split pane ---- */
         Row(Modifier.fillMaxWidth().flexGrow(1).minHeight(0.px)) {
             Box(Modifier.fillMaxWidth(50.percent).fillMaxHeight().overflow(Overflow.Auto)
                 .backgroundColor(T.Surface).borderRight(1.px, LineStyle.Solid, T.Border)) {
@@ -179,8 +175,6 @@ fun EditorPage() {
         )
     }
 }
-
-/* ---------- editor parts ---------- */
 
 private fun chipInputModifier() = Modifier
     .border(0.px).padding(0.px).outline(0.px, LineStyle.None, Colors.Transparent)

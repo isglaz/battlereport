@@ -15,20 +15,13 @@ fun Application.configureHttp() {
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
-        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+        anyHost()
     }
     install(DefaultHeaders) {
-        header("X-Engine", "Ktor") // will send this header with each response
+        header("X-Engine", "Ktor")
     }
     routing {
         openAPI(path = "openapi") {
-            /*
-             Documentation source configuration goes here.
-    
-             This can be from file (documentation.yaml), or it can be served dynamically from your sources using the
-             `describe {}` API on routes.  When `openApi` enabled in Gradle, these calls will be automatically injected
-             based on your code and comments.
-             */
         }
     }
 }

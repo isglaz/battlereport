@@ -117,6 +117,5 @@ object SampleData {
         "r6" to listOf(Comment("c9", "mapfolder", "2026-05-21", "The original boards have such character.")),
     )
 
-    /** The current user - a stub until authentication exists. */
     val me get() = users.getValue("greywolf")
 }
