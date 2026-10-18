@@ -1,20 +1,16 @@
 # BattleReport
 
-## Project rules
+## Discipline
 
-### 1. English is the language of the codebase
+Write concise, direct, human prose.
+English is the language of the codebase, except the RU dictionary in Strings.kt.
+Push back on technical mistakes, deferring to users on vision and architecture.
+Stay on scope, refactoring only what tasks require.
+Design top-down, whole before parts, composition before ingredients.
+Never work around design obstacles, stopping to ask me instead.
 
-Everything written *about* the code is in English, with no exceptions:
+## Code
 
-* **Comments** - line, block and KDoc.
-* **Documentation** - `README.md`, `migrations/README.md`, and any new docs.
-* **Commit messages** - both subject and body.
-* **Pull request titles and descriptions.**
-* **Identifiers** - names of classes, functions, variables, SQL objects, Gradle tasks.
-* **Developer-facing strings** - log messages, exception texts, `check`/`require`
-  messages, CLI output of the scripts in `deploy/`.
-
-The single exception is **user-facing product content**: the `RU` dictionary in
-`site/src/jsMain/kotlin/org/isglaz/battlereport/i18n/Strings.kt` and the language
-label `RU("ru", "Русский")`. Those are translations shown in the UI - they stay
-Russian, and every new interface string is added to **both** `EN` and `RU`.
+Favor aesthetics over functionality.
+Skip inline comments.
+Prepend classes with plain-text docblocks explaining purpose, not usage.
